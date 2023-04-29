@@ -3,9 +3,11 @@ import dotenv from 'dotenv'
 
 import { initializeRoutes } from './routes/index.js';
 import { errorHandler } from './middleware/errorHandler.js';
-
+import { connectMongoDB } from './config/mongoDBConfig.js';
 
 dotenv.config()
+
+// connectMongoDB();
 
 const port = process.env.PORT || 3000;
 
