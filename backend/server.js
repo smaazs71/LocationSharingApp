@@ -25,18 +25,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 
-app.use( '/', (req, res) => { res.send('Welcome') } )
+// app.use( '/', (req, res) => { res.send('Welcome') } )
 
 app = initializeRoutes( app )
 
 
 app.use(errorHandler)
-
-
-// app.listen( port, ( ) => {
-
-//     console.log('Server running on port: '+ port);
-// })
 
 
 
@@ -54,26 +48,20 @@ const io = new Server( httpServer, {
 io.on('connection', onConnection(io))
 
 // socket middleware 
-io.use((socket, next) => {
-    if (isValid(socket.request)) {
-      next();
-    } else {
-      next(new Error("invalid"));
-    }
-  });
+// io.use((socket, next) => {
+//     if (isValid(socket.request)) {
+//       next();
+//     } else {
+//       next(new Error("invalid"));
+//     }
+//   });
 
 
-const customNameSpace = io.of('/custom-namespace')
+// const customNameSpace = io.of('/custom-namespace')
 
-customNameSpace.on('connection', onConnection(customNameSpace))
-
+// customNameSpace.on('connection', onConnection(customNameSpace))
 
 httpServer.listen( port, () => {
     console.log(`Server listening on port: ${port}`);
 })
-
-/*
-new-driver
-new-user
-*/
 

@@ -1,12 +1,12 @@
-import { userModel } from '../../models/UsersModel/usersModel.js';
+// import { userModel } from '../../models/UsersModel/usersModel.js';
 import asyncHandler from 'express-async-handler';
-
+import { db } from '../../models/index.js';
 
 // @desc Get All Users
 // @route api/v1/users
 // @access Public
 export const getAllUsers = asyncHandler( async ( req, res ) => {
-    const users = await userModel.find()
+    const users = await db.userModel.find()
     res.status(200).json({ msg: 'GET ALL USERS', users })
 })
 
@@ -15,7 +15,7 @@ export const getAllUsers = asyncHandler( async ( req, res ) => {
 // @route GET api/v1/users/:id
 // @access Private
 export const getUserById = asyncHandler( async (req,res) => {
-    const user = await userModel.findById(req.params.id)
+    const user = await db.userModel.findById(req.params.id)
 
     res.status(200).json({ msg: "GET Data of ID: " + req.params.id, user })
 })
@@ -32,7 +32,7 @@ export const setUser = asyncHandler( async (req,res) => {
 
     const { name, email, password } = req.body;
 
-    const user = await userModel.create({name, email, password});
+    const user = await db.userModel.create({name, email, password});
 
     res.status(200).json({ msg: "SET Data", user })
 })
@@ -48,16 +48,16 @@ export const updateUser = asyncHandler( async (req,res) => {
         res.status(400)
         throw new Error('User not found')
     }
-    const updatedUser = await userModel.findByIdAndUpdate(id, req.body, {new:true})
+    const updatedUser = await db.userModel.findByIdAndUpdate(id, req.body, {new:true})
         
-    res.status(200).json({ msg: "UPDATE Data of ID: "+ id, updateUser })
+    res.status(200).json({ msg: "UPDATE Data of ID: "+ id, updatedUser })
 })
 
 // @desc Get Delete User
 // @route DELETE api/v1/users/:id
 // @access Private
 export const deleteUser = asyncHandler( async (req,res) => {
-    const user = await userModel.findById(req.params.id)
+    const user = await db.userModel.findById(req.params.id)
     if(!user){
         res.status(400)
         throw new Error('User not found')

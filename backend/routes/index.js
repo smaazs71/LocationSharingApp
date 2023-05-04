@@ -1,6 +1,7 @@
 import userRoutes from './UsersRoutes/userRoutes.js'
+import locationRoutes from './LocationRoutes/locationRoutes.js';
 
-const allRoutes = [ userRoutes ];
+const allRoutes = [ userRoutes, locationRoutes ];
 
 export const initializeRoutes = (app) => {
     allRoutes.forEach( (router) => {
