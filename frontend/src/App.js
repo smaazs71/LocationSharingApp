@@ -68,6 +68,7 @@ function App() {
     }
     function onAssigneeMoveEvent(value) {
       console.log(value);
+      setOtherUsersData( { [value._id]: value } )
     }
 
     socket.on('connect', onConnect);
@@ -116,7 +117,7 @@ function App() {
         <option value="driver">Driver</option>
       </select>
 
-      <MapComponent myData={userData} otherUsersData={otherUsersData} />
+      <MapComponent myData={userData} setMyData={setUserData} otherUsersData={otherUsersData} setOtherUsersData={setOtherUsersData} />
     </div>
   );
 }

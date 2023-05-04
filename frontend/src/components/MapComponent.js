@@ -1,10 +1,11 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import axios from 'axios'
 
 import 'leaflet/dist/leaflet.css';
 
-import { useState } from 'react';
 
 import L from 'leaflet';
+
 
 const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 
@@ -17,7 +18,7 @@ const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 //   })
 // }
 
-const MapComponent = ({myData, otherUsersData}) => {
+const MapComponent = ({myData, setMyData, otherUsersData, setOtherUsersData }) => {
 
   const customIcon = new L.Icon({
     iconUrl: require('../logo.svg'),
@@ -35,20 +36,29 @@ function getCoOrdinates(data){
   return [data.location.coordinates[1], data.location.coordinates[0]]
 }
 
+const onClick = (id) => {
+  console.log('CLicking on assign: id as:'+ id);
+  axios.put('http://localhost:4444/api/v1/location/setassignee', {id: myData._id ,assigneeId:id})
+  .then(res => {
+    setMyData(res.data.passenger)
+    setOtherUsersData( { [res.data.driver._id] : res.data.driver })
+    console.log(JSON.stringify(res) + ' Response');
+  })
+}
+
 const marker = []
 
 for( let key in otherUsersData ){
   marker.push(
     <Marker position={getCoOrdinates(otherUsersData[key])} icon={customIcon} >
   <Popup>
+    <button onClick={() => {onClick( key )}} >Assign</button>
     {otherUsersData[key].location.coordinates}
     A pretty CSS3 popup. <br /> Easily customizable.
   </Popup>
 </Marker>  
 )
 }
-
-console.log('OtherUsersDatain Map comp: '+JSON.stringify(otherUsersData));
 
 return (
     <d>

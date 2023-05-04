@@ -30,7 +30,7 @@ export const setAssignee = asyncHandler( async (req, res) => {
     
     const driver = await db.locationModel.findById(assigneeId)
     driver.assigneeId = id
-    const updatedDriver = driver.save()
+    const updatedDriver = await driver.save()
 
     res.status(200).json({msg: 'Success', passenger: updatedPassenger, driver: updatedDriver})
 
